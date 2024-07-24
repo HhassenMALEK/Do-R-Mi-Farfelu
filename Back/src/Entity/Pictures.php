@@ -6,6 +6,7 @@ use App\Repository\PicturesRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups; 
 
+
 #[ORM\Entity(repositoryClass: PicturesRepository::class)]
 class Pictures
 {
