@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PicturesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups; 
 
 #[ORM\Entity(repositoryClass: PicturesRepository::class)]
 class Pictures
@@ -11,12 +12,15 @@ class Pictures
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['product_list'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures')]
+    #[Groups(['product_list'])]
     private ?Products $products = null;
 
     public function getId(): ?int

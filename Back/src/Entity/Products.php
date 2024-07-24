@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups; 
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 #[ORM\Entity(repositoryClass: ProductsRepository::class)]
 class Products
@@ -15,27 +16,31 @@ class Products
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['products.index', 'products.categories'])]
+    #[Groups(['product_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['products.index', 'products.categories'])]
+    #[Groups(['product_list'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['products.index', 'products.categories'])]
+    #[Groups(['product_list'])]
+    #[MaxDepth(1)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['products.index', 'products.categories'])]
+    #[Groups(['product_list'])]
+    #[MaxDepth(1)]
     private ?Categories $categories = null;
+
 
     /**
      * @var Collection<int, Pictures>
      */
     #[ORM\OneToMany(mappedBy: 'products', targetEntity: Pictures::class)]
-    #[Groups(['products.index', 'products.categories'])]
+    #[Groups(['product_list'])]
+    #[MaxDepth(1)]
     private Collection $pictures;
 
     public function __construct()

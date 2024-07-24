@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups; 
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
@@ -16,21 +17,21 @@ class Categories
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['products.categories'])]
+    #[Groups(['product_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['products.categories'])]
+    #[Groups(['product_list'])]
     private ?string $Description = null;
 
     /**
      * @var Collection<int, Products>
      */
      #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class)]
-     #[Groups(['products.categories'])]
+     #[Groups(['product_list'])]
      private Collection $products;
 
     public function __construct()
