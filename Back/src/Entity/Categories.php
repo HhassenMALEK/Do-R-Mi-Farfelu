@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups; 
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
@@ -16,23 +18,26 @@ class Categories
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product_list'])]
+    #[Groups(['product_list','name'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    #[Groups(['product_list','name'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Groups(['product_list'])]
+    #[Groups(['product_list','name'])]
     private ?string $Description = null;
 
+  
     /**
      * @var Collection<int, Products>
      */
-     #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class)]
-     #[Groups(['product_list'])]
-     private Collection $products;
-
+   //  #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Products::class)]
+    #[ORM\OneToMany(targetEntity: Products::class, mappedBy: 'categories')]
+    #[Groups(['product_list'])]
+    #[MaxDepth(1)]
+    private Collection $products;
     public function __construct()
     {
         $this->products = new ArrayCollection();

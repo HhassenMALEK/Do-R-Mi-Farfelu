@@ -16,7 +16,7 @@ class Products
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['product_list'])]
+    #[Groups(['product_list','name'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -25,15 +25,18 @@ class Products
 
     #[ORM\Column(type: Types::TEXT)]
     #[Groups(['product_list'])]
-    #[MaxDepth(1)]
     private ?string $description = null;
 
+    // #[ORM\ManyToOne(inversedBy: 'products')]
+    // #[ORM\JoinColumn(nullable: false)]
+    // #[Groups(['products.index', 'products.categories'])]
+    // private ?Categories $categories = null;
     #[ORM\ManyToOne(targetEntity: Categories::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['product_list'])]
     #[MaxDepth(1)]
-    private ?Categories $categories = null;
 
+    private ?Categories $categories = null;
 
     /**
      * @var Collection<int, Pictures>

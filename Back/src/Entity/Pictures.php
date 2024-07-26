@@ -4,8 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PicturesRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Attribute\Groups; 
-
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PicturesRepository::class)]
 class Pictures
@@ -13,7 +12,7 @@ class Pictures
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-
+    #[Groups(['product_list'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

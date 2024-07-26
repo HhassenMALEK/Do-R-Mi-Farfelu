@@ -15,14 +15,28 @@ class ProductsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Products::class);
     }
-public function findAll(): array
-{
+
+    public function findAll(): array
+    {
     return $this->createQueryBuilder('p')
-        ->select('p','i','c')
+    ->select('p','i','c')
+    ->leftJoin('p.pictures', 'i')
+    ->leftJoin('p.categories', 'c')
+    ->getQuery()
+    ->getResult();
+    }
+
+    public function findByCategory(string $category): array
+    {
+    return $this->createQueryBuilder('p')
+        ->select('p', 'i', 'c')
         ->leftJoin('p.pictures', 'i')
         ->leftJoin('p.categories', 'c')
+        ->andWhere('c.name = :category')
+        ->setParameter('category', $category)
         ->getQuery()
         ->getResult();
-
     }
+    
+   
 }
